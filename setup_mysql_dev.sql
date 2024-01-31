@@ -1,6 +1,7 @@
 -- Create database hbnb_dev_db
 -- Add new user hbnb_dev with password hbnb_dev_pwd in localhost
 -- Grant privileges to hbnb_dev
+-- Prepares a MYSQL server for the project
 
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost' IDENTIFIED BY 'hbnb_dev_pwd';

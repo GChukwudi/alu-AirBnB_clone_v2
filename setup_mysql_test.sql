@@ -2,7 +2,8 @@
 -- create user hbnb_test with password hbnb_test_pwd in localhost
 -- grant privileges to hbnb_test
 -- grant select privileges on the database performance_schema to hbnb_test
--- flush privileges
+-- flush privilege
+-- Prepares a MYSQL server for the project
 
 CREATE DATABASE IF NOT EXISTS hbnb_test_db;
 CREATE USER IF NOT EXISTS 'hbnb_test'@'localhost' IDENTIFIED BY 'hbnb_test_pwd';
