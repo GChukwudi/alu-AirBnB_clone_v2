@@ -138,7 +138,7 @@ class TestHBNBCommand(unittest.TestCase):
             output = f.getvalue()
             self.assertIn(pl, output)
             self.assertIn('city_id', output)
-            self.assertIn('"0001"', output)
+            self.assertIn("'0001'", output)
             self.assertIn("'name': 'My house'", output)
             self.assertIn("'number_rooms': 4", output)
             self.assertIn("'latitude': 37.77", output)
