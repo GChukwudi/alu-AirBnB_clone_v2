@@ -113,41 +113,47 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
+    def do_create(self, arg):
+        """
+        Create a new instance of BaseModel and save it to the JSON file.
+        Usage: create <class_name>
+        """
         try:
-            class_name = args.split(" ")[0]
-        except IdentError:
-            pass
-        if not class_name:
-            print("** class name missing **")
-            return
-        elif class_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        # new_instance = HBNBCommand.classes[args]()
-        # storage.save()
-        # print(new_instance.id)
-        # storage.save()
-        all_list = args.split(" ")
+            class_name = arg.split(" ")[0]
+            if len(class_name) == 0:
+                print("** class name missing **")
+                return
+            if class_name and class_name not in self.classes:
+                print("** class doesn't exist **")
+                return
 
-        new_instance = eval(class_name)()
+            kwargs = {}
+            commands = arg.split(" ")
+            for i in range(1, len(commands)):
+                
+                key = commands[i].split("=")[0]
+                value = commands[i].split("=")[1]
+                #key, value = tuple(commands[i].split("="))
+                if value.startswith('"'):
+                    value = value.strip('"').replace("_", " ")
+                else:
+                    try:
+                        value = eval(value)
+                    except (SyntaxError, NameError):
+                        continue
+                kwargs[key] = value
 
-        for i in range(1, len(all_list)):
-            key, value = tuple(all_list[i].split("="))
-            if value.startswith('"'):
-                value.strip('"').replace("_", " ")
+            if kwargs == {}:
+                new_instance = eval(class_name)()
             else:
-                try:
-                    value = eval(value)
-                except Exception:
-                    print(f"** couldnt evaluate {value}")
-                    pass
-            if hasattr(new_instance, key):
-                setattr(new_instance, key, value)
-        storage.new(new_instance)
-        print(new_instance.id)
-        new_instance.save()
+                new_instance = eval(class_name)(**kwargs)
+            storage.new(new_instance)
+            print(new_instance.id)
+            storage.save()
+        except ValueError:
+            print(ValueError)
+            return
+
 
     def help_create(self):
         """ Help information for the create method """
@@ -329,11 +335,10 @@ class HBNBCommand(cmd.Cmd):
                 if not att_val:  # check for att_value
                     print("** value missing **")
                     return
-                # type cast as necessary
+                
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
 
-                # update dictionary with name, value pair
                 new_dict.__dict__.update({att_name: att_val})
 
         new_dict.save()  # save updates to file
