@@ -1,6 +1,13 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class FileStorage:
@@ -8,8 +15,15 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
+        if cls:
+            if isinstance(cls, str):
+                cls = globals().get(cls)
+            if cls and isinstance(cls, BaseModel):
+                cls_dict = {k: v for k,
+                            v in self.__objects.items() if isinstance(v, cls)}
+                return cls_dict
         return FileStorage.__objects
 
     def new(self, obj):
@@ -27,14 +41,6 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
@@ -48,13 +54,18 @@ class FileStorage:
                         self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+        except json.decoder.JSONDecodeError:
+            pass
 
     def delete(self, obj=None):
         """Delete obj from __objects if its inside"""
         if obj is None:
             return
-        key = obj.__class__.__name__ + '.' + obj.id
-        if key in self.__objects:
-            del self.__objects[key]
-            self.save()
-            
+        del_obj = f"{obj.__class__.__name__}.{obj.id}"
+
+        try:
+            del FileStorage.__objects[del_obj]
+        except AttributeError:
+            pass
+        except KeyboardInterrupt:
+            pass
