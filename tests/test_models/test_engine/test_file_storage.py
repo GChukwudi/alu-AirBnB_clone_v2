@@ -24,7 +24,7 @@ class TestFileStorage(unittest.TestCase):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
-        except:
+        except BaseException:
             pass
 
         del self.storage
