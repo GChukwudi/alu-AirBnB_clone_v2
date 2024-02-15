@@ -19,7 +19,3 @@ def do_pack():
     Generates a .tgz archive from the contents of the web_static
     """
     local("mkdir -p versions")
-    result = local("tar -cvzf versions/web_static_`date +%Y%m%d%H%M%S`.tgz web_static")
-    if result.failed:
-        return None
-    return result
