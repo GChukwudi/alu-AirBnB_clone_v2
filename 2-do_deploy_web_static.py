@@ -4,8 +4,10 @@ Fabric script that distributes an archive to your web servers
 """
 import os
 from fabric.api import local, env, put, run
+from datetime import datetime
 
 
+# Setup Fabric environment variables.
 env.hosts = ['54.210.254.62', '54.227.96.209']
 env.user = 'ubuntu'
 
@@ -14,11 +16,15 @@ def do_pack():
     Return the archive path if the archive has been correctly packed or None otherwise
     """
     local('mkdir -p versions')
-    result = local('tar -cvzf versions/web_static_$(date "+%Y%m%d%H%M%S").tgz web_static')
-    if result.failed:
-        return None
+    now = datetime.now().strftime("%Y%m%d%H%M%S")
+    filename = "versions/web_static_{}.tgz".format(now)
+
+    archive = local('tar -cvzf {} web_static'.format(filename))
+
+    if archive.succeeded:
+        return filename
     else:
-        return result
+        return None
     
 def do_deploy(archive_path):
     """
