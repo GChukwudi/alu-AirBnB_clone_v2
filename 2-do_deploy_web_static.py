@@ -10,6 +10,7 @@ from datetime import datetime
 env.hosts = ['54.210.254.62', '54.227.96.209']
 env.user = 'ubuntu'
 
+
 def do_deploy(archive_path):
     """
     Distributes an archive to your web servers
