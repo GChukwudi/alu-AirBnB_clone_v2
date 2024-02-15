@@ -19,12 +19,12 @@ printf %s "server {
 	add_header X-Served-By $hostname;
 	root /var/www/html;
 	location /hbnb_static {
-	    alias /data/web_static/current;
+	    alias /data/web_static/current/;
 	    index index.html index.htm;
 	}
 	
 	location /redirect_me {
-       	    return 301 http://github.com/GChukwudi;
+        return 301 http://github.com/GChukwudi;
 	}
 	
 	error_page 404 /404.html;
@@ -34,4 +34,5 @@ printf %s "server {
 	}
 }" > /etc/nginx/site-available/default
 
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
