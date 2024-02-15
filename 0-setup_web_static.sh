@@ -10,7 +10,9 @@ mkdir -p /data/web_static/shared/
 echo "Holberton School" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-chown -R www-data:www-data /data/web_static/
+chown -R ubuntu:ubuntu /data/web_static/*
+
+cp ./nginx.conf /etc/nginx/nginx.conf
 
 printf %s "server {
 	listen 80 default_server;
