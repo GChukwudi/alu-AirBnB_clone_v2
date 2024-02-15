@@ -32,4 +32,6 @@ printf %s "server {
 	    root /var/www/html;
 	    internal;
 	}
-}" > /etc/nginx/
+}" > /etc/nginx/site-available/default
+
+service nginx restart
