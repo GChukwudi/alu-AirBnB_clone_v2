@@ -24,19 +24,27 @@ def do_deploy(archive_path):
     """
     Distributes an archive to your web servers
     """
-    if not os.path.exists(archive_path):
-        return False
-    try:
+    if os.path.exists(archive_path):
+        archived_file = archive_path[9:]
+        new_version = '/data/web_static/releases/' + archived_file[:-4]
+
+        archived_file = '/tmp/' + archived_file
+        
         put(archive_path, '/tmp/')
-        archive_name = archive_path.split('/')[1]
-        archive_name_no_ext = archive_name.split('.')[0]
-        run('mkdir -p /data/web_static/releases/{}'.format(archive_name_no_ext))
-        run('tar -xzf /tmp/{} -C /data/web_static/releases/{}'.format(archive_name, archive_name_no_ext))
-        run('rm /tmp/{}'.format(archive_name))
-        run('rm -rf /data/web_static/current')
-        run('ln -s /data/web_static/releases/{} /data/web_static/current'.format(archive_name_no_ext))
+        run('sudo mkdir -p {}'.format(new_version))
+
+        run('sudo tar -xzf {} -C {}/'.format(archived_file,
+                                        new_version))
+        run('sudo rm {}'.format(archived_file))
+        run('sudo mv {}/web_static/* {}/'.format(new_version,
+                                                 new_version))
+        
+        # Clean up old releases
+        run('sudo rm -rf {}/web_static'.format(new_version))
+        run('sudo rm -rf /data/web_static/current')
+        run('sudo ln -s {} /data/web_static/current'.format(new_version))
+
+        print('New version deployed!')
         return True
-    except:
+    else:
         return False
-    return False
-    
