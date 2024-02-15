@@ -9,7 +9,6 @@ from fabric.api import local, env, put, run
 env.hosts = ['54.210.254.62', '54.227.96.209']
 env.user = 'ubuntu'
 
-@task
 def do_pack():
     """
     Return the archive path if the archive has been correctly packed or None otherwise
