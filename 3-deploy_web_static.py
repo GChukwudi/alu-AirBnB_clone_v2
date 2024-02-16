@@ -23,6 +23,7 @@ def do_pack():
           web_static'.format(str_time))
     return "versions/web_static_{}.tgz".format(str_time)
 
+
 def do_deploy(archive_path):
     """
     Distributes an archive to your web servers
@@ -44,7 +45,8 @@ def do_deploy(archive_path):
         return True
     except:
         return False
-    
+
+
 def deploy():
     """
     creates and distributes an archive to your web servers
