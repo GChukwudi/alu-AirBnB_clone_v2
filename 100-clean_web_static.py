@@ -18,13 +18,12 @@ def do_clean(number=0):
     [archives.pop() for i in range(number)]
 
     with lcd("versions"):
-        [local("rm -f {}".format(archive)) for archive in archives]
+        [local("rm -f {}".format(j)) for j in archives]
 
     with cd("/data/web_static/releases"):
         archives = run("ls -tr").split()
-        archives = [archive for archive in archives if "web_static_" \
-                     in archive]
+        archives = [j for j in archives if "web_static_" in j]
         [archives.pop() for i in range(number)]
 
         # Remove the same version of application from both directories
-        [run("rm -rf ./{}".format(archive)) for archive in archives]
+        [run("rm -rf ./{}".format(j)) for j in archives]
