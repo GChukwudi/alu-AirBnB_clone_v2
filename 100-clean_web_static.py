@@ -22,7 +22,8 @@ def do_clean(number=0):
 
     with cd("/data/web_static/releases"):
         archives = run("ls -tr").split()
-        archives = [archive for archive in archives if "web_static_" in archive]
+        archives = [archive for archive in archives if "web_static_" \
+                     in archive]
         [archives.pop() for i in range(number)]
 
         # Remove the same version of application from both directories
