@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 import models
-from models import storage
 from models.base_model import BaseModel, Base
 import os
 from sqlalchemy import Column, String
