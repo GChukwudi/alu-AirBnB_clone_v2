@@ -8,9 +8,15 @@
 <body>
     <h1>States</h1>
     <ul>
-        {% for state in states %}
-            <li>{{ state.id }}: <b>{{ state.name }}</b></li>
-            {% endfor %}
+        {% for state_id, state in states.items()|sort(attribute='n') %}
+        <li>{{ state_id }}: <b>{{ state.name }}</b>
+            <ul>
+                {% for city in state.cities %}
+                <li>{{ city.name }}: <b>{{ city.name }}</b></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {%  endfor %}
     </ul>
 </body>
 </html>
