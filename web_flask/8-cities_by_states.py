@@ -11,7 +11,6 @@ app = Flask(__name__)
 def cities_by_states():
     """ display a HTML page: (inside the tag BODY) """
     states = storage.all(State).values()
-    #sorted_stated = sorted(states, key=lambda k: k.name)
 
     return render_template('8-cities_by_states.html', states=states)
 
