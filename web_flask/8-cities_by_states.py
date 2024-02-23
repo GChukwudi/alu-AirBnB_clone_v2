@@ -7,6 +7,12 @@ from models.state import State
 app = Flask(__name__)
 
 
+@app.teardown_appcontext
+def teardown_appcontext(exception):
+    """Closes the session"""
+    storage.close()
+
+
 @app.route('/')
 def cities_by_states():
     """ display a HTML page: (inside the tag BODY) """
@@ -15,10 +21,6 @@ def cities_by_states():
     return render_template('8-cities_by_states.html', states=states)
 
 
-@app.teardown_appcontext
-def close_session(exception):
-    """ close session """
-    storage.close()
 
 
 if __name__ == '__main__':
