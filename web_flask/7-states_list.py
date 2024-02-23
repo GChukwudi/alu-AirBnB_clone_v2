@@ -16,8 +16,14 @@ def teardown_appcontext(exception):
 def states_list():
     """states_list"""
     states = storage.all(State)
-    return render_template('7-states_list.html',
-                           Table="States", states=states)
+    sort = sorted(states.values(), key=lambda k: k.name)
+    return render_template('states_list.html', states=sort)
+
+
+@app.route('/')
+def hello_world():
+    """hello world route"""
+    return 'Hello World!'
 
 
 if __name__ == "__main__":
